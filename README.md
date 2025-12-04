@@ -1,0 +1,416 @@
+﻿# 🤖 Universal AI Chatbot
+
+A powerful, multi-backend chatbot with an enhanced Gradio interface that connects to 5 different AI providers with 100+ free models.
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Gradio](https://img.shields.io/badge/Gradio-5.0+-orange.svg)](https://gradio.app/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Models](https://img.shields.io/badge/Models-100+-brightgreen.svg)](#-available-models-december-2025)
+
+> **⚠️ Important:** AI model availability changes frequently. Provider APIs may add, remove, or rename models at any time. The model lists in this README are current as of December 2025 but may not reflect real-time availability.
+
+---
+
+## ✨ Features
+
+### 🔌 **5 AI Providers Supported**
+- **Ollama** - Run models locally (100% free, private, no API keys)
+- **OpenRouter** - 29 free models with `:free` suffix
+- **GitHub Models** - 23 free tier models for prototyping
+- **Groq** - 19 models with ultra-fast inference (14,400 free req/day)
+- **Gemini** - 17 Google AI models (1,500 free req/day)
+
+### 🎨 **Enhanced Interface**
+- Modern Gradio UI with custom theme
+- Real-time API status indicators
+- Model dropdown with 100+ options
+- System prompt customization
+- Temperature & max tokens controls
+- Preset prompts (Code Expert, Writer, Analyst, Teacher)
+- Export chat to Markdown
+- Stop generation button
+- Clear chat functionality
+
+### 🚀 **Advanced Capabilities**
+- Streaming responses for real-time interaction
+- Conversation history support
+- Empty choices safety checks (fixed streaming issues)
+- Custom system prompts per conversation
+- Temperature control for creativity adjustment
+- Error handling with helpful suggestions
+
+---
+
+## 📋 Requirements
+
+- **Python 3.8+**
+- **Jupyter Notebook** or **VS Code** with Jupyter extension
+- **Internet connection** (for cloud providers)
+- **API Keys** (optional, depending on providers)
+
+---
+
+## 🚀 Quick Start
+
+### 1️⃣ **Clone/Download**
+```bash
+git clone <your-repo-url>
+cd Chatbot
+```
+
+### 2️⃣ **Install Dependencies**
+```bash
+pip install gradio openai python-dotenv google-generativeai
+```
+
+Or run the first code cell in the notebook:
+```python
+%pip install google-generativeai openai python-dotenv gradio -q
+```
+
+### 3️⃣ **Set Up API Keys**
+
+Create a `.env` file in the project directory:
+
+```bash
+# Copy the example template
+cp .env.example .env
+
+# Edit .env with your favorite text editor
+notepad .env  # Windows
+nano .env     # Linux/Mac
+```
+
+Add your API keys (get them from the links below):
+
+```env
+# OpenRouter (29 free models)
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
+
+# GitHub Models (23 free models)
+GITHUB_TOKEN=ghp_your-token-here
+
+# Groq (19 free models, ultra-fast)
+GROQ_API_KEY=gsk_your-key-here
+
+# Google Gemini (17 models)
+GOOGLE_API_KEY=AIzaSy-your-key-here
+```
+
+### 4️⃣ **Run the Chatbot**
+
+**Option A: Jupyter Notebook**
+```bash
+jupyter notebook Chatbot.ipynb
+```
+
+**Option B: VS Code**
+1. Open `Chatbot.ipynb` in VS Code
+2. Select Python kernel
+3. Run all cells (Ctrl+Shift+Enter)
+
+**Option C: JupyterLab**
+```bash
+jupyter lab
+```
+
+The interface will launch at `http://127.0.0.1:7860`
+
+---
+
+## 🔑 Getting API Keys
+
+### 🆓 **Free Options (No Credit Card Required)**
+
+#### 1. **Ollama** (Completely Free, Local)
+```bash
+# Install Ollama
+# Windows/Mac: Download from https://ollama.ai
+# Linux:
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Pull a model
+ollama pull llama3.2:1b
+
+# Start Ollama (usually auto-starts)
+ollama serve
+```
+**Models Available:** 13 models including Llama, Mistral, CodeLlama, Phi, Gemma, Qwen, DeepSeek
+
+---
+
+#### 2. **Groq** (Free Tier: 14,400 requests/day)
+1. Visit [https://console.groq.com](https://console.groq.com)
+2. Sign up with GitHub/Google
+3. Go to "API Keys" → Create new key
+4. Copy key to `.env` as `GROQ_API_KEY`
+
+**Free Tier Limits:**
+- 30 requests/minute
+- 14,400 requests/day
+- 19 models including Llama 3.3 70B, Mixtral, Gemma, Qwen
+
+---
+
+#### 3. **GitHub Models** (Free for Prototyping)
+1. Generate a Personal Access Token:
+   - Go to [https://github.com/settings/tokens](https://github.com/settings/tokens)
+   - Click "Generate new token (classic)"
+   - Select scopes: `read:user`, `read:org`
+   - Generate and copy token
+2. Add to `.env` as `GITHUB_TOKEN`
+
+**Free Tier Limits:**
+- 10-15 requests/minute (varies by model)
+- 50-150 requests/day
+- 23 models including GPT-4o, Llama, Phi, Mistral, DeepSeek
+
+---
+
+#### 4. **Google Gemini** (Free Tier: 1,500 requests/day)
+1. Visit [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)
+2. Sign in with Google account
+3. Click "Create API Key"
+4. Copy key to `.env` as `GOOGLE_API_KEY`
+
+**Free Tier Limits:**
+- 15 requests/minute
+- 1,500 requests/day
+- 17 models including Gemini 2.5, Gemini 3 Preview, Gemma
+
+---
+
+#### 5. **OpenRouter** (29 Free Models with `:free` suffix)
+1. Visit [https://openrouter.ai](https://openrouter.ai)
+2. Sign up (email/Google/GitHub)
+3. Go to "Keys" → Create new key
+4. Copy key to `.env` as `OPENROUTER_API_KEY`
+
+**Free Tier Notes:**
+- Must append `:free` to model IDs
+- ~20 requests/minute
+- ~50 requests/day per model
+- 29 models including Llama 3.3 70B, Gemini, DeepSeek R1, Qwen, Gemma
+
+---
+
+## 📊 Available Models (December 2025)
+
+> ⚠️ **Note:** Model availability changes frequently. The lists below reflect models available as of December 2025. Some models may be added, removed, or renamed by providers. Always check the dropdown in the interface for the most current list.
+
+### **Ollama (13 Local Models)**
+```
+llama3.2:1b, llama3.2:3b, llama3.1:8b, llama3.1:70b
+mistral:7b, mixtral:8x7b, codellama:7b, codellama:34b
+phi3:mini, phi3:medium, gemma2:9b, qwen2.5:7b, deepseek-r1:7b
+```
+
+### **OpenRouter (29 Free Models)**
+```
+meta-llama/llama-3.3-70b-instruct:free
+google/gemini-2.0-flash-exp:free
+tngtech/deepseek-r1t2-chimera:free
+qwen/qwen3-coder:free
+google/gemma-3-27b-it:free
+nvidia/nemotron-nano-12b-v2-vl:free
+... (24 more, see notebook for full list)
+```
+
+### **GitHub Models (23 Models)**
+```
+OpenAI: gpt-4o, gpt-4o-mini, o1-mini, o1-preview
+Meta Llama: Llama-3.3-70B, Llama-3.2-90B-Vision, Llama-3.1-70B
+Microsoft: Phi-4, Phi-3.5-MoE
+Mistral: Mistral-Large-2407, Codestral-2501
+DeepSeek: DeepSeek-V3, DeepSeek-R1
+... (13 more models)
+```
+
+### **Groq (19 Models)**
+```
+llama-3.3-70b-versatile, llama-3.1-8b-instant
+openai/gpt-oss-120b, openai/gpt-oss-20b
+gemma2-9b-it, mixtral-8x7b-32768
+qwen-2.5-32b, deepseek-r1-distill-llama-70b
+whisper-large-v3 (audio)
+... (11 more models)
+```
+
+### **Gemini (17 Models)**
+```
+gemini-3-pro-preview (Preview)
+gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite
+gemini-2.0-flash, gemini-2.0-flash-lite
+gemma-3-27b-it, gemma-3-8b-it, gemma-2-9b-it
+... (8 more models)
+```
+
+---
+
+## 🎛️ Usage Guide
+
+### **Basic Usage**
+
+1. **Launch the notebook** and run all cells
+2. **Select Backend** from dropdown (Ollama/OpenRouter/GitHub/Groq/Gemini)
+3. **Select Model** from auto-populated list
+4. **Type your message** and press Enter or click Send
+
+### **Advanced Settings**
+
+Click "Advanced Settings" accordion to access:
+
+- **System Prompt** - Customize AI behavior
+  - Example: "You are a Python expert. Provide code with explanations."
+  
+- **Temperature** (0.0 - 2.0)
+  - `0.0-0.5`: Focused, deterministic responses
+  - `0.7`: Balanced (default)
+  - `1.0-2.0`: Creative, varied responses
+
+- **Max Tokens** (0 - 4096)
+  - `0`: Unlimited (default)
+  - `512`: Short responses
+  - `2048`: Medium responses
+  - `4096`: Long responses
+
+### **Preset Prompts**
+
+Quick-select specialized AI personas:
+
+- **Code Expert** - For programming help
+- **Creative Writer** - For storytelling and content
+- **Data Analyst** - For data insights and analysis
+- **Teacher** - For educational explanations
+
+### **Export Chat**
+
+1. Click "Export Chat" accordion
+2. Click "Export to Markdown"
+3. Copy the formatted conversation
+
+---
+
+## 🔧 Troubleshooting
+
+### **GitHub Models: "list index out of range"**
+✅ **FIXED** - Empty choices check added to streaming handler
+
+### **Ollama: Connection Error**
+```bash
+# Make sure Ollama is running
+ollama serve
+
+# Check if models are installed
+ollama list
+
+# Pull a model if needed
+ollama pull llama3.2:1b
+```
+
+### **API Key Errors**
+1. Check `.env` file exists in project directory
+2. Verify no extra spaces in API keys
+3. Restart Jupyter kernel after editing `.env`
+4. Run cell 2 again to reload environment
+
+### **Model Not Found**
+- **OpenRouter:** Add `:free` suffix to free models
+- **GitHub:** Use exact model names (e.g., `Llama-3.3-70B-Instruct`)
+- **Groq:** Use model IDs from the list above
+- **Gemini:** Some models are preview/experimental
+
+### **Rate Limit Exceeded**
+- Free tiers have limits (see API Keys section)
+- Wait a few minutes or switch to another provider
+- Consider upgrading to paid tier for higher limits
+
+---
+
+## 📁 Project Structure
+
+```
+Chatbot/
+├── Chatbot.ipynb          # Main notebook with enhanced UI
+├── .env                   # Your API keys (DO NOT COMMIT)
+├── .env.example          # Template for API keys
+└── README.md             # This file
+```
+
+---
+
+## 🛠️ Technical Details
+
+### **Architecture**
+- **Frontend:** Gradio 5.0+ with custom CSS
+- **Backend:** OpenAI-compatible API clients
+- **Models:** 100+ free models across 5 providers
+- **Streaming:** Real-time token-by-token responses
+
+### **Key Improvements**
+1. **Fixed GitHub Models streaming** - Added empty choices check
+2. **Enhanced UI** - Modern theme, better layout, status indicators
+3. **Model management** - Dynamic dropdowns with 100+ models
+4. **Advanced controls** - System prompts, temperature, max tokens
+5. **Error handling** - Helpful error messages with solutions
+
+### **Dependencies**
+```
+gradio>=5.0
+openai>=1.0
+python-dotenv>=1.0
+google-generativeai>=0.3
+```
+
+---
+
+## 🤝 Contributing
+
+Feel free to:
+- Report issues
+- Suggest new features
+- Add more AI providers
+- Improve documentation
+- Submit pull requests
+
+---
+
+## 📝 License
+
+This project is open source and available under the MIT License.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Gradio** - Beautiful web UI framework
+- **OpenAI** - API standard that most providers follow
+- **Meta, Google, Mistral, Microsoft** - Open-source models
+- **OpenRouter, Groq, GitHub** - Free API access
+
+---
+
+## 📞 Support
+
+If you encounter issues:
+1. Check the Troubleshooting section
+2. Verify your API keys in `.env`
+3. Ensure all dependencies are installed
+4. Check provider status pages
+
+---
+
+## 🔮 Future Enhancements
+
+- [ ] Vision model support (image inputs)
+- [ ] Voice input/output
+- [ ] Chat history persistence
+- [ ] Multi-user support
+- [ ] Custom model additions
+- [ ] API usage statistics
+
+---
+
+**Happy Chatting! 🚀**
+
+*Last Updated: December 4, 2025*
