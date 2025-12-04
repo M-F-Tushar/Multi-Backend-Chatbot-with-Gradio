@@ -2,6 +2,7 @@
 
 A powerful, multi-backend chatbot with an enhanced Gradio interface that connects to 5 different AI providers with 100+ free models.
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black.svg)](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Gradio](https://img.shields.io/badge/Gradio-5.0+-orange.svg)](https://gradio.app/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -52,10 +53,10 @@ A powerful, multi-backend chatbot with an enhanced Gradio interface that connect
 
 ## 🚀 Quick Start
 
-### 1️⃣ **Clone/Download**
+### 1️⃣ **Clone Repository**
 ```bash
-git clone <your-repo-url>
-cd Chatbot
+git clone https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio.git
+cd Multi-Backend-Chatbot-with-Gradio
 ```
 
 ### 2️⃣ **Install Dependencies**
@@ -81,7 +82,7 @@ notepad .env  # Windows
 nano .env     # Linux/Mac
 ```
 
-Add your API keys (get them from the links below):
+Add your API keys (get them from the links below). Only add keys for providers you want to use:
 
 ```env
 # OpenRouter (29 free models)
@@ -96,6 +97,8 @@ GROQ_API_KEY=gsk_your-key-here
 # Google Gemini (17 models)
 GOOGLE_API_KEY=AIzaSy-your-key-here
 ```
+
+**Note:** Ollama doesn't require an API key (local only).
 
 ### 4️⃣ **Run the Chatbot**
 
@@ -330,12 +333,36 @@ ollama pull llama3.2:1b
 ## 📁 Project Structure
 
 ```
-Chatbot/
-├── Chatbot.ipynb          # Main notebook with enhanced UI
-├── .env                   # Your API keys (DO NOT COMMIT)
-├── .env.example          # Template for API keys
-└── README.md             # This file
+Multi-Backend-Chatbot-with-Gradio/
+├── Chatbot.ipynb          # Main notebook with enhanced Gradio UI
+├── README.md              # This documentation
+├── .env.example           # Template for API keys (rename to .env and add your keys)
+├── .env                   # Your API keys (DO NOT COMMIT - protected by .gitignore)
+├── .gitignore             # Git configuration to protect sensitive files
+└── LICENSE                # MIT License
 ```
+
+## 🚀 Deployment Options
+
+### **Local Development** (Recommended for Testing)
+```bash
+jupyter notebook Chatbot.ipynb
+```
+
+### **Cloud Deployment (Optional)**
+
+#### **Hugging Face Spaces** (Free, Public)
+1. Fork this repo to your GitHub account
+2. Create new Hugging Face Space
+3. Connect to your GitHub repo
+4. Add API keys to Space secrets
+5. Deploy!
+
+#### **Streamlit Cloud** (Free)
+Would require converting Gradio to Streamlit, but feasible.
+
+#### **Docker Deployment**
+Could containerize for cloud platforms (AWS, Azure, GCP, etc.)
 
 ---
 
@@ -366,12 +393,50 @@ google-generativeai>=0.3
 
 ## 🤝 Contributing
 
-Feel free to:
-- Report issues
-- Suggest new features
-- Add more AI providers
-- Improve documentation
-- Submit pull requests
+Found a bug? Want to add features? Here's how to contribute:
+
+### **Fork & Clone**
+```bash
+git clone https://github.com/YOUR-USERNAME/Multi-Backend-Chatbot-with-Gradio.git
+cd Multi-Backend-Chatbot-with-Gradio
+```
+
+### **Create a Branch**
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### **Make Changes**
+- Add new features, fix bugs, improve documentation
+- Test thoroughly with different models
+- Update README if adding new capabilities
+
+### **Commit & Push**
+```bash
+git add .
+git commit -m "Add your descriptive message"
+git push origin feature/your-feature-name
+```
+
+### **Submit Pull Request**
+- Go to [GitHub repo](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio)
+- Create Pull Request from your fork
+- Describe your changes
+
+---
+
+## 🌟 Ideas for Contributions
+
+- [ ] Add more AI providers (Anthropic Claude, Mistral API, etc.)
+- [ ] Vision model support (image inputs)
+- [ ] Voice input/output support
+- [ ] Chat history persistence (SQLite/MongoDB)
+- [ ] Multi-user authentication
+- [ ] Custom model fine-tuning
+- [ ] API usage statistics & cost tracking
+- [ ] Docker containerization
+- [ ] Streamlit version
+- [ ] Web server deployment guide
 
 ---
 
@@ -390,13 +455,26 @@ This project is open source and available under the MIT License.
 
 ---
 
-## 📞 Support
+## 📞 Support & Issues
 
-If you encounter issues:
-1. Check the Troubleshooting section
+### **Found a Bug?**
+1. Check [existing issues](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio/issues)
+2. [Create a new issue](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio/issues/new) with:
+   - Python version
+   - Which provider failed
+   - Error message (full traceback)
+   - Steps to reproduce
+
+### **Troubleshooting**
+1. Check the Troubleshooting section above
 2. Verify your API keys in `.env`
-3. Ensure all dependencies are installed
-4. Check provider status pages
+3. Ensure all dependencies: `pip install --upgrade gradio openai python-dotenv google-generativeai`
+4. Restart Jupyter kernel after editing `.env`
+5. Check [GitHub Discussions](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio/discussions) for community help
+
+### **Feature Requests**
+- Open a [GitHub Discussion](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio/discussions)
+- Or create an [Issue](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio/issues) with `[FEATURE REQUEST]` label
 
 ---
 
@@ -414,3 +492,4 @@ If you encounter issues:
 **Happy Chatting! 🚀**
 
 *Last Updated: December 4, 2025*
+*Repository: [https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio)*
