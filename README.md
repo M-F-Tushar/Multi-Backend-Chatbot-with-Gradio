@@ -16,10 +16,16 @@ A powerful, multi-backend chatbot with an enhanced Gradio interface that connect
 
 ### 🔌 **5 AI Providers Supported**
 - **Ollama** - Run models locally (100% free, private, no API keys)
-- **OpenRouter** - 29 free models with `:free` suffix
-- **GitHub Models** - 23 free tier models for prototyping
-- **Groq** - 19 models with ultra-fast inference (14,400 free req/day)
-- **Gemini** - 17 Google AI models (1,500 free req/day)
+- **OpenRouter** - 26 validated free models with `:free` suffix
+- **GitHub Models** - 21 validated models including GPT-5 series
+- **Groq** - 11 models with ultra-fast inference
+- **Gemini** - 13 Google AI models (1,500 free req/day)
+
+### 🛠️ **Model Validation Tool**
+- **Automated Audit** - `validate_models.py` included to check real-time availability
+- **Error Detection** - Identifies auth errors, rate limits, 404s, and server overloads
+- **JSON Reports** - Generates detailed validation reports with response times
+
 
 ### 🎨 **Enhanced Interface**
 - Modern Gradio UI with custom theme
@@ -102,22 +108,13 @@ GOOGLE_API_KEY=AIzaSy-your-key-here
 
 ### 4️⃣ **Run the Chatbot**
 
-**Option A: Jupyter Notebook**
+**Option D: Model Validation (CLI)**
 ```bash
-jupyter notebook Chatbot.ipynb
-```
-
-**Option B: VS Code**
-1. Open `Chatbot.ipynb` in VS Code
-2. Select Python kernel
-3. Run all cells (Ctrl+Shift+Enter)
-
-**Option C: JupyterLab**
-```bash
-jupyter lab
+python validate_models.py --quick-test
 ```
 
 The interface will launch at `http://127.0.0.1:7860`
+
 
 ---
 
@@ -138,7 +135,8 @@ ollama pull llama3.2:1b
 # Start Ollama (usually auto-starts)
 ollama serve
 ```
-**Models Available:** 13 models including Llama, Mistral, CodeLlama, Phi, Gemma, Qwen, DeepSeek
+**Models Available:** 14 models including Llama 3.3, Mistral, CodeLlama, Phi, Gemma 3, Qwen 2.5, DeepSeek R1
+
 
 ---
 
@@ -150,8 +148,8 @@ ollama serve
 
 **Free Tier Limits:**
 - 30 requests/minute
-- 14,400 requests/day
-- 19 models including Llama 3.3 70B, Mixtral, Gemma, Qwen
+- 11 models including Llama 4 Maverick, Llama 3.3 70B, GPT-OSS 120B, Qwen
+
 
 ---
 
@@ -165,8 +163,8 @@ ollama serve
 
 **Free Tier Limits:**
 - 10-15 requests/minute (varies by model)
-- 50-150 requests/day
-- 23 models including GPT-4o, Llama, Phi, Mistral, DeepSeek
+- 21 models including GPT-5 (nano/mini), o3-mini, o4-mini, Llama 3.2 90B, Phi-4
+
 
 ---
 
@@ -178,8 +176,8 @@ ollama serve
 
 **Free Tier Limits:**
 - 15 requests/minute
-- 1,500 requests/day
-- 17 models including Gemini 2.5, Gemini 3 Preview, Gemma
+- 13 models including Gemini 2.5, Gemini 3 Preview, Gemma 3, Robotics-ER
+
 
 ---
 
@@ -191,9 +189,8 @@ ollama serve
 
 **Free Tier Notes:**
 - Must append `:free` to model IDs
-- ~20 requests/minute
-- ~50 requests/day per model
-- 29 models including Llama 3.3 70B, Gemini, DeepSeek R1, Qwen, Gemma
+- 26 models including Llama 3.3, Gemini 2.0 Flash, DeepSeek R1, Xiaomi MiMo-V2, NVIDIA Nemotron 3
+
 
 ---
 
@@ -201,52 +198,49 @@ ollama serve
 
 > ⚠️ **Note:** Model availability changes frequently. The lists below reflect models available as of December 2025. Some models may be added, removed, or renamed by providers. Always check the dropdown in the interface for the most current list.
 
-### **Ollama (13 Local Models)**
+### **Ollama (14 Local Models)**
 ```
-llama3.2:1b, llama3.2:3b, llama3.1:8b, llama3.1:70b
+llama3.2:1b, llama3.2:3b, llama3.1:8b, llama3.1:70b, llama3.3:70b
 mistral:7b, mixtral:8x7b, codellama:7b, codellama:34b
 phi3:mini, phi3:medium, gemma2:9b, qwen2.5:7b, deepseek-r1:7b
 ```
 
-### **OpenRouter (29 Free Models)**
+### **OpenRouter (26 Validated Free Models)**
 ```
 meta-llama/llama-3.3-70b-instruct:free
 google/gemini-2.0-flash-exp:free
 tngtech/deepseek-r1t2-chimera:free
-qwen/qwen3-coder:free
-google/gemma-3-27b-it:free
-nvidia/nemotron-nano-12b-v2-vl:free
-... (24 more, see notebook for full list)
+xiaomi/mimo-v2-flash:free
+nvidia/nemotron-3-nano-30b-a3b:free
+... (21 more, see validate_models.py for full list)
 ```
 
-### **GitHub Models (23 Models)**
+### **GitHub Models (21 Validated Models)**
 ```
-OpenAI: gpt-4o, gpt-4o-mini, o1-mini, o1-preview
-Meta Llama: Llama-3.3-70B, Llama-3.2-90B-Vision, Llama-3.1-70B
-Microsoft: Phi-4, Phi-3.5-MoE
-Mistral: Mistral-Large-2407, Codestral-2501
-DeepSeek: DeepSeek-V3, DeepSeek-R1
-... (13 more models)
+OpenAI: gpt-5 (nano/mini), o4-mini, o3-mini, gpt-4o
+Meta Llama: Llama-3.3-70B, Llama-3.2-90B-Vision
+Microsoft: Phi-4, Phi-4-reasoning, Phi-4-mini
+Mistral: Codestral-2501
+DeepSeek: DeepSeek-R1, DeepSeek-V3
 ```
 
-### **Groq (19 Models)**
+### **Groq (11 Validated Models)**
 ```
+llama-4-maverick, llama-4-scout
 llama-3.3-70b-versatile, llama-3.1-8b-instant
 openai/gpt-oss-120b, openai/gpt-oss-20b
-gemma2-9b-it, mixtral-8x7b-32768
-qwen-2.5-32b, deepseek-r1-distill-llama-70b
+moonshotai/kimi-k2, qwen/qwen3-32b
 whisper-large-v3 (audio)
-... (11 more models)
 ```
 
-### **Gemini (17 Models)**
+### **Gemini (13 Validated Models)**
 ```
-gemini-3-pro-preview (Preview)
+gemini-3-pro-preview, gemini-3-pro-image-preview
 gemini-2.5-pro, gemini-2.5-flash, gemini-2.5-flash-lite
-gemini-2.0-flash, gemini-2.0-flash-lite
-gemma-3-27b-it, gemma-3-8b-it, gemma-2-9b-it
-... (8 more models)
+gemini-2.0-flash-exp, gemini-robotics-er-1.5-preview
+gemma-3-27b-it, gemma-3-12b-it, gemma-3-4b-it
 ```
+
 
 ---
 
@@ -375,11 +369,12 @@ Could containerize for cloud platforms (AWS, Azure, GCP, etc.)
 - **Streaming:** Real-time token-by-token responses
 
 ### **Key Improvements**
-1. **Fixed GitHub Models streaming** - Added empty choices check
-2. **Enhanced UI** - Modern theme, better layout, status indicators
-3. **Model management** - Dynamic dropdowns with 100+ models
-4. **Advanced controls** - System prompts, temperature, max tokens
-5. **Error handling** - Helpful error messages with solutions
+1. **GitHub o-series/GPT-5 fix** - Added `max_completion_tokens` support for advanced OpenAI models (Dec 21)
+2. **Model Validation Tool** - Added `validate_models.py` for automated health checks
+3. **Enhanced UI** - Modern theme, better layout, status indicators
+4. **Dynamic model management** - Cleansed and refined model lists
+5. **Safety features** - Empty streaming checks and provider connectivity status
+
 
 ### **Dependencies**
 ```
@@ -491,5 +486,6 @@ This project is open source and available under the MIT License.
 
 **Happy Chatting! 🚀**
 
-*Last Updated: December 4, 2025*
+*Last Updated: December 21, 2025*
+
 *Repository: [https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio](https://github.com/M-F-Tushar/Multi-Backend-Chatbot-with-Gradio)*

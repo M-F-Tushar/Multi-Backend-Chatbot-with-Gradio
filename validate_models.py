@@ -52,7 +52,7 @@ OLLAMA_MODELS = [
     "phi3:mini", "phi3:medium", "gemma2:9b", "qwen2.5:7b", "deepseek-r1:7b"
 ]
 
-# OpenRouter Free Models (22 WORKING)
+# OpenRouter Free Models (26 WORKING)
 OPENROUTER_MODELS = [
     # Flagship & High Performance
     "meta-llama/llama-3.3-70b-instruct:free",
@@ -63,9 +63,13 @@ OPENROUTER_MODELS = [
     "tngtech/tng-r1t-chimera:free",
     "allenai/olmo-3-32b-think:free",
     "alibaba/tongyi-deepresearch-30b-a3b:free",
+    "xiaomi/mimo-v2-flash:free",
+    "nex-agi/deepseek-v3.1-nex-n1:free",
+    "nvidia/nemotron-3-nano-30b-a3b:free",
     # Coding
     "kwaipilot/kat-coder-pro:free",
     # Qwen Models
+
     "qwen/qwen3-4b:free",
     # Google Gemma
     "google/gemma-3-27b-it:free",
@@ -81,12 +85,13 @@ OPENROUTER_MODELS = [
     # Other Models
     "openai/gpt-oss-20b:free",
     "z-ai/glm-4.5-air:free",
-    "amazon/nova-2-lite-v1:free",
     "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
     "arcee-ai/trinity-mini:free"
 ]
 
-# GitHub Models (8 WORKING + NEW)
+
+
+# GitHub Models (WORKING + NEW)
 GITHUB_MODELS = [
     # OpenAI GPT-5 Series (NEW)
     "gpt-5", "gpt-5-chat", "gpt-5-mini", "gpt-5-nano",
@@ -103,12 +108,11 @@ GITHUB_MODELS = [
     "Phi-4-mini-reasoning", "Phi-4-mini-instruct",
     # Mistral (Working)
     "Codestral-2501",
-    "Mistral-Small-3-1-multimodal",
     # DeepSeek (Working + NEW)
-    "DeepSeek-R1", "DeepSeek-V3-0324", "MAI-DS-R1",
-    # AI21 Labs (NEW)
-    "AI21-Jamba-1-5-Large"
+    "DeepSeek-R1", "DeepSeek-V3-0324", "MAI-DS-R1"
 ]
+
+
 
 # Groq Models (6 WORKING + NEW)
 GROQ_MODELS = [
@@ -128,7 +132,7 @@ GROQ_MODELS = [
     "whisper-large-v3", "whisper-large-v3-turbo"
 ]
 
-# Gemini Models (4 WORKING + Stable)
+# Gemini Models (WORKING + NEW)
 GEMINI_MODELS = [
     # Gemini 3 Preview (NEW - may require quota)
     "gemini-3-pro-preview", "gemini-3-pro-image-preview",
@@ -136,11 +140,13 @@ GEMINI_MODELS = [
     "gemini-2.5-pro", "gemini-2.5-flash", "gemini-2.5-flash-lite",
     # Gemini 2.0 (Stable)
     "gemini-2.0-flash-exp",
+    "gemini-robotics-er-1.5-preview",
     # Gemma 3 Open Models (Working)
     "gemma-3-27b-it", "gemma-3-12b-it", "gemma-3-4b-it", "gemma-3-1b-it",
     # Gemma 3n Nano (for devices)
     "gemma-3n-e4b-it", "gemma-3n-e2b-it"
 ]
+
 
 
 # ============================================================================
@@ -389,14 +395,26 @@ class GitHubValidator(BaseValidator):
             if self.client is None:
                 self.client = OpenAI(base_url=self.base_url, api_key=self.api_key)
             
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": "Hi"}],
-                max_tokens=5,
-                timeout=self.timeout
-            )
+            # Fix for newer OpenAI models (o1, o3, o4, gpt-5)
+            # They require 'max_completion_tokens' instead of 'max_tokens'
+            payload = {
+                "model": model,
+                "messages": [{"role": "user", "content": "Hi"}],
+                "timeout": self.timeout
+            }
+            
+            o_series = {"o1", "o1-mini", "o1-preview", "o3", "o3-mini", "o4", "o4-mini", "gpt-5"}
+            is_o_series = any(s in model.lower() for s in o_series)
+            
+            if is_o_series:
+                payload["max_completion_tokens"] = 5
+            else:
+                payload["max_tokens"] = 5
+                
+            response = self.client.chat.completions.create(**payload)
             
             elapsed_ms = (time.time() - start_time) * 1000
+
             return ValidationResult(
                 provider="GitHub",
                 model=model,
