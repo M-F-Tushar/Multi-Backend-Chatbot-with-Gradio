@@ -1,19 +1,3 @@
-#!/usr/bin/env python3
-"""
-Model Validation Script for Multi-Backend Chatbot
-==================================================
-Automatically audits 100+ AI models across 5 providers to identify which
-are working and which are returning errors (authentication, 404s, rate limits, etc.)
-
-Usage:
-    python validate_models.py                      # Run all providers
-    python validate_models.py --providers ollama groq  # Specific providers only
-    python validate_models.py --delay 2.0          # Custom delay between requests
-    python validate_models.py --timeout 30         # Custom timeout per request
-    python validate_models.py --quick-test         # Test one model per provider
-    python validate_models.py --output report.json # Custom output file
-"""
-
 import os
 import sys
 import json
@@ -25,10 +9,8 @@ from dataclasses import dataclass, asdict
 from typing import Optional
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv(override=True)
 
-# Try to import required libraries
 try:
     from openai import OpenAI
 except ImportError:
@@ -42,17 +24,13 @@ except ImportError:
     sys.exit(1)
 
 
-# ============================================================================
-# Model Lists (Updated December 2025 - VALIDATED)
-# ============================================================================
-
 OLLAMA_MODELS = [
     "llama3.2:1b", "llama3.2:3b", "llama3.1:8b", "llama3.1:70b", "llama3.3:70b",
     "mistral:7b", "mixtral:8x7b", "codellama:7b", "codellama:34b",
     "phi3:mini", "phi3:medium", "gemma2:9b", "qwen2.5:7b", "deepseek-r1:7b"
 ]
 
-# OpenRouter Free Models (26 WORKING)
+
 OPENROUTER_MODELS = [
     # Flagship & High Performance
     "meta-llama/llama-3.3-70b-instruct:free",
@@ -91,7 +69,7 @@ OPENROUTER_MODELS = [
 
 
 
-# GitHub Models (WORKING + NEW)
+# GitHub Models 
 GITHUB_MODELS = [
     # OpenAI GPT-5 Series (NEW)
     "gpt-5", "gpt-5-chat", "gpt-5-mini", "gpt-5-nano",
@@ -114,7 +92,7 @@ GITHUB_MODELS = [
 
 
 
-# Groq Models (6 WORKING + NEW)
+# Groq Models 
 GROQ_MODELS = [
     # Meta Llama 4 (NEW)
     "meta-llama/llama-4-maverick-17b-128e-instruct",
@@ -132,7 +110,7 @@ GROQ_MODELS = [
     "whisper-large-v3", "whisper-large-v3-turbo"
 ]
 
-# Gemini Models (WORKING + NEW)
+# Gemini Models 
 GEMINI_MODELS = [
     # Gemini 3 Preview (NEW - may require quota)
     "gemini-3-pro-preview", "gemini-3-pro-image-preview",
@@ -149,20 +127,16 @@ GEMINI_MODELS = [
 
 
 
-# ============================================================================
-# Error Categories and Data Structures
-# ============================================================================
-
 class ErrorCategory(Enum):
     WORKING = "WORKING"
     AUTH_ERROR = "AUTH_ERROR"
     NOT_FOUND = "NOT_FOUND"
     RATE_LIMITED = "RATE_LIMITED"
     SERVER_ERROR = "SERVER_ERROR"
-    NOT_INSTALLED = "NOT_INSTALLED"  # For Ollama models not pulled
+    NOT_INSTALLED = "NOT_INSTALLED"  
     TIMEOUT = "TIMEOUT"
     CONNECTION_ERROR = "CONNECTION_ERROR"
-    AUDIO_MODEL = "AUDIO_MODEL"  # For Whisper models that need audio input
+    AUDIO_MODEL = "AUDIO_MODEL" 
     ERROR = "ERROR"
 
 
@@ -180,9 +154,6 @@ class ValidationResult:
             self.timestamp = datetime.now().isoformat()
 
 
-# ============================================================================
-# Console Colors
-# ============================================================================
 
 class Colors:
     GREEN = "\033[92m"
@@ -216,10 +187,6 @@ def status_icon(status: ErrorCategory) -> str:
     }
     return icons.get(status, colored("❓ UNKNOWN", Colors.YELLOW))
 
-
-# ============================================================================
-# Provider Validators
-# ============================================================================
 
 class BaseValidator:
     """Base class for model validators."""
