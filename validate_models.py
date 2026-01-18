@@ -261,7 +261,7 @@ class OllamaValidator(BaseValidator):
                     error_message=f"Model not pulled. Run: ollama pull {model}"
                 )
             
-            # Check if Ollama is not running
+            
             if "connection" in error_str or "connect" in error_str:
                 return ValidationResult(
                     provider="Ollama",
